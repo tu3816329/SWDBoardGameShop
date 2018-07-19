@@ -1,0 +1,28 @@
+{
+  "name": "swdboardgameshop",
+  "version": "1.0.0",
+  "description": "This is an api for swd project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tu3816329/SWDBoardGameShop.git"
+  },
+  "keywords": [
+    "boardgame"
+  ],
+  "dependencies":{
+       "body-parser": "^1.16.1",
+        "express": "^4.14.1",
+        "pg-promise": "^5.5.0"
+  }
+  ,
+  "author": "tudt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tu3816329/SWDBoardGameShop/issues"
+  },
+  "homepage": "https://swdboardgameshop.herokuapp.com/"
+}
