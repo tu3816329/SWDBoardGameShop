@@ -9,8 +9,8 @@ var option = {
         var cp = client.connectionParameters;
         console.log("Disconnecting from database ", cp.database);
     },
-    connect: function(){
-        
+    connect: function () {
+
     }
 };
 var pgPromise = require('pg-promise')(option);
@@ -39,7 +39,11 @@ app.use(function (req, res, next) {
     next();
 });
 // - - - - - - - - - - - - - Handle Get Method - - - - - - - - - - - - - - - - 
-
+app.get("/", function (req, res) {
+    res.writeHeader(200, {'Content-type': "text/html"});
+    res.write("<meta charset='UTF-8'>");
+    res.write("<h1>Hello All. Testing</h1>")
+});
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
 var server = app.listen(process.env.PORT || 8080, function () {
