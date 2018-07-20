@@ -33,9 +33,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 // - - - - - - - - - - - - - - Functions - - - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Variables - - - - - - - - - - - - - - - - - - - -
-var GET_PRODUCT_BY_ID = "SELECT a.\"Name\",b.\"PictureLink\",a.\"Description\",a.\"NumbPlayers\",\n\
+// var GET_PRODUCT_BY_ID = "SELECT a.\"Name\",b.\"PictureLink\",a.\"Description\",a.\"NumbPlayers\",\n\
+// a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\
+// FROM \"Product\" a, \"Picture\" b WHERE b.\"ID\" = a.\"PictureID\" AND a.\"ID\"=";
+
+
+var GET_PRODUCT_BY_ID = "SELECT a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
 a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\
-FROM \"Product\" a, \"Picture\" b WHERE b.\"ID\" = a.\"PictureID\" AND a.\"ID\"=";
+FROM \"Product\" a WHERE a.\"ID\"=";
+var GET_PRODUCT_BY_CATEGORYID = "SELECT a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
+a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\ FROM \"Product\" a, \"ProductCategory\" b WHERE a.\"ID\" = b.\"ProductID\" AND  b.\"CategoryID\"=";
 var GET_CATEGORY_BY_ID = "";
 var GET_ALL_CATEGORY = "SELECT c.* FROM \"Category\" c";
 var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
@@ -53,15 +60,11 @@ app.get("/", function (req, res) {
 });
 
 app.get("/getProductByID", function (req, res) {
-    console.log("id:" + req.query.id);
-    GET_PRODUCT_BY_ID = GET_PRODUCT_BY_ID + req.query.id.toString();
-//    console.log("id:"+req.id);
-//    db.manyOrNone(GET_PRODUCT_BY_ID)
  var products = [];
-    db.manyOrNone(GET_PRODUCT_BY_ID).then(function (row) {
+    db.manyOrNone(GET_PRODUCT_BY_ID+req.query.id).then(function (row) {
         for (var i = 0; i < row.length; i++) {
-            var product={"name": row[i].Name.toString(), "picture": row[i].PictureID.toString(), "description":row[i].Description.toString(),"numplayer":row[i].NumbPlayers.toString(),
-            "idealNumbPlayers":row[i].IdealNumbPlayers.toString(),"timePlay":row[i].toString(),"age":row[i].Age.toString(),"price":row[i].Price.toString()};
+            var product={"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers,
+            "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price};
             products.push(product);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -82,6 +85,24 @@ app.get("/getAllCategory", function (req, res) {
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.writeHeader(200, {'Content-type': "Application/json"});
         res.write(JSON.stringify(categories));
+        res.end();
+    }).catch(function (error) {
+        console.log(error);
+    });
+
+});
+
+app.get("/getProductByCategoryID", function (req, res) {
+    console.log("" + GET_PRODUCT_BY_CATEGORYID);
+    db.manyOrNone(GET_PRODUCT_BY_CATEGORYID + req.query.id).then(function (row) {
+        var products = [];
+        for (var i = 0; i < row.length; i++) {
+            var product={"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers, "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price};
+            products.push(product);
+        }
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(products));
         res.end();
     }).catch(function (error) {
         console.log(error);
