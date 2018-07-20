@@ -37,7 +37,7 @@ var GET_PRODUCT_BY_ID = "SELECT a.Name,b.PictureLink,a.Description,a.NumbPlayers
 a.IdealNumbPlayers,a.TimePlay,a.Age,a.Price \n\
 FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
 var GET_CATEGORY_BY_ID = "";
-var GET_ALL_CATEGORY = "SELECT c.* FROM Category c";
+var GET_ALL_CATEGORY = "SELECT c.* FROM 'Category' c";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
