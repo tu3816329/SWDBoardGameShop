@@ -50,7 +50,7 @@ app.get("/", function (req, res) {
     res.write("<h1>Hello All. Testing</h1>")
 });
 app.get("/getProductByID", function (res, req) {
-    console.log(req.getParameter("id"));
+    console.log(req.query);
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
 
 });
