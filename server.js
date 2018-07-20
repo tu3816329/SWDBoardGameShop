@@ -54,9 +54,9 @@ app.get("/getProductByID", function (res, req) {
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
 
 });
-app.get("/getAllCategory", function (res, req) {
+// app.get("/getAllCategory", function (res, req) {
 
-});
+// });
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
 var server = app.listen(process.env.PORT || 8080, function () {
