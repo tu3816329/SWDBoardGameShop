@@ -37,7 +37,7 @@ var GET_PRODUCT_BY_ID = "SELECT a.Name,b.PictureLink,a.Description,a.NumbPlayers
 a.IdealNumbPlayers,a.TimePlay,a.Age,a.Price \n\
 FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
 var GET_CATEGORY_BY_ID = "";
-var GET_ALL_CATEGORY = "SELECT c.* FROM Category c";
+var GET_ALL_CATEGORY = "SELECT c.* FROM \"Category\" c";
 var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
@@ -66,9 +66,10 @@ app.get("/getProductByID", function (req, res) {
 });
 app.get("/getAllCategory", function (req, res) {
     db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
-        var categories = [];
+        var categories = {};
         for (var i = 0; i < row.length; i++) {
-            categories.push({"category": {"id": row[i].ID.toString(), "name": row[i].CategoryName}});
+            var cate={"category": {"id": row[i].ID.toString(), "name": row[i].CategoryName}};
+            categories.push(cate);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.writeHeader(200, {'Content-type': "Application/json"});
