@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 var GET_PRODUCT_BY_ID = "SELECT a.Name,b.PictureLink,a.Description,a.NumbPlayers,\n\
 a.IdealNumbPlayers,a.TimePlay,a.Age,a.Price \n\
 FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
-var GET_CATEGORY_BY_ID = "";
+var GET_CATEGORY_BY = "SELECT";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -50,15 +50,15 @@ app.get("/", function (req, res) {
     res.write("<h1>Hello All. Testing</h1>")
 });
 app.get("/getProductByID", function (res, req) {
-    console.log(req.query);
-    console.log("id:"+req.id);
-    console.log("id:"+req.query.id);
+//    console.log(req.query);
+//    console.log("id:"+req.id);
+//    console.log("id:"+req.query.id);
 //    console.log("id:"+req.id);
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
 
 });
 app.get("/getAllCategory", function (res, req) {
-
+    
 });
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
