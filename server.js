@@ -49,7 +49,6 @@ app.get("/", function (req, res) {
     res.write("<meta charset='UTF-8'>");
     res.write("<h1>Hello All. Testing</h1>")
 });
-
 app.get("/getProductByID", function (res, req) {
     console.log(req.getParameter("id"));
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
