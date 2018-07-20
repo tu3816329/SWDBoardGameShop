@@ -37,7 +37,8 @@ var GET_PRODUCT_BY_ID = "SELECT a.Name,b.PictureLink,a.Description,a.NumbPlayers
 a.IdealNumbPlayers,a.TimePlay,a.Age,a.Price \n\
 FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
 var GET_CATEGORY_BY_ID = "";
-var GET_ALL_CATEGORY = "SELECT c.* FROM 'Category' c";
+var GET_ALL_CATEGORY = "SELECT c.* FROM Category c";
+var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -48,12 +49,17 @@ app.use(function (req, res, next) {
 app.get("/", function (req, res) {
     res.writeHeader(200, {'Content-type': "text/html"});
     res.write("<meta charset='UTF-8'>");
-    res.write("<h1>Hello All. Testing</h1>")
+    res.write("<h1>Hello All. Testing</h1>");
 });
 app.get("/getProductByID", function (req, res) {
     console.log("id:" + req.query.id);
 //    console.log("id:"+req.id);
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
+    db.manyOrNone(SEE_ALL_TABLE).then(function (row) {
+        console.log(row[0].table_name);
+    }).catch(function (error) {
+        console.log(error);
+    });
 });
 app.get("/getAllCategory", function (req, res) {
     db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
@@ -65,6 +71,8 @@ app.get("/getAllCategory", function (req, res) {
         res.writeHeader(200, {'Content-type': "Application/json"});
         res.write(JSON.stringify(categories));
         res.end();
+    }).catch(function (error) {
+        console.log(error);
     });
 });
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
