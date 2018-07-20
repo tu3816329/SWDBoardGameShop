@@ -54,18 +54,19 @@ app.get("/", function (req, res) {
 
 app.get("/getProductByID", function (req, res) {
     console.log("id:" + req.query.id);
-    GET_PRODUCT_BY_ID += req.query.id;
+    GET_PRODUCT_BY_ID = GET_PRODUCT_BY_ID + req.query.id.toString();
 //    console.log("id:"+req.id);
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
+ var products = [];
     db.manyOrNone(GET_PRODUCT_BY_ID).then(function (row) {
         for (var i = 0; i < row.length; i++) {
-            var product={"id": row[i].ID.toString(), "name": row[i].Name, "picture": row[i].PictureID.toString(), "description":row[i].Description,"numplayer":row[i].NumbPlayers,
-            "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price.toString()};
-    
+            var product={"name": row[i].Name.toString(), "picture": row[i].PictureID.toString(), "description":row[i].Description.toString(),"numplayer":row[i].NumbPlayers.toString(),
+            "idealNumbPlayers":row[i].IdealNumbPlayers.toString(),"timePlay":row[i].toString(),"age":row[i].Age.toString(),"price":row[i].Price.toString()};
+            products.push(product);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.writeHeader(200, {'Content-type': "Application/json"});
-        res.write(JSON.stringify(product));
+        res.write(JSON.stringify(products));
         res.end();
     }).catch(function (error) {
         console.log(error);
