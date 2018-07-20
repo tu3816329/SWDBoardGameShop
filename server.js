@@ -66,7 +66,7 @@ app.get("/getProductByID", function (req, res) {
 });
 app.get("/getAllCategory", function (req, res) {
     db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
-        var categories = {};
+        var categories = [];
         for (var i = 0; i < row.length; i++) {
             var cate={"category": {"id": row[i].ID.toString(), "name": row[i].CategoryName}};
             categories.push(cate);
