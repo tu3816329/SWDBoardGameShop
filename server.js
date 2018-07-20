@@ -37,6 +37,7 @@ var GET_PRODUCT_BY_ID = "SELECT a.Name,b.PictureLink,a.Description,a.NumbPlayers
 a.IdealNumbPlayers,a.TimePlay,a.Age,a.Price \n\
 FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
 var GET_CATEGORY_BY_ID = "";
+var GET_ALL_CATEGORY = "SELECT c.* FROM Category c";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -49,15 +50,22 @@ app.get("/", function (req, res) {
     res.write("<meta charset='UTF-8'>");
     res.write("<h1>Hello All. Testing</h1>")
 });
-app.get("/getProductByID", function (res, req) {
-    console.log(req.query);
-    console.log("id:"+req.id);
+app.get("/getProductByID", function (req, res) {
+    console.log("id:" + req.query.id);
 //    console.log("id:"+req.id);
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
-
 });
-app.get("/getAllCategory", function (res, req) {
-
+app.get("/getAllCategory", function (req, res) {
+    db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
+        var categories = [];
+        for (var i = 0; i < row.length; i++) {
+            categories.push({"category": {"id": row[i].ID.toString(), "name": row[i].CategoryName}});
+        }
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(categories));
+        res.end();
+    });
 });
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
