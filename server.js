@@ -51,6 +51,8 @@ app.get("/", function (req, res) {
 });
 app.get("/getProductByID", function (res, req) {
     console.log(req.query);
+    console.log("id:"+req.id);
+//    console.log("id:"+req.id);
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
 
 });
