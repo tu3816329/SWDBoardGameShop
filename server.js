@@ -33,9 +33,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 // - - - - - - - - - - - - - - Functions - - - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Variables - - - - - - - - - - - - - - - - - - - -
-var GET_PRODUCT_BY_ID = "SELECT a.Name,b.PictureLink,a.Description,a.NumbPlayers,\n\
-a.IdealNumbPlayers,a.TimePlay,a.Age,a.Price \n\
-FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
+var GET_PRODUCT_BY_ID = "SELECT a.\"Name\",b.\"PictureLink\",a.\"Description\",a.\"NumbPlayers\",\n\
+a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\
+FROM \"Product\" a, \"Picture\" b WHERE b.\"ID\" = a.\"PictureID\" AND a.\"ID\"=";
 var GET_CATEGORY_BY_ID = "";
 var GET_ALL_CATEGORY = "SELECT c.* FROM \"Category\" c";
 var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
@@ -51,23 +51,21 @@ app.get("/", function (req, res) {
     res.write("<meta charset='UTF-8'>");
     res.write("<h1>Hello All. Testing</h1>");
 });
-<<<<<<< HEAD
-app.get("/getProductByID", function (res, req) {
-    console.log(req.getParameter("id"));
-    var id = req.params.id;
-    res.writeHeader(200, {'Content-type': "text/html"});
-    res.write("<meta charset='UTF-8'>");
-    res.write("<h1>Hello All. Testing</h1>" + id)
-=======
+
 app.get("/getProductByID", function (req, res) {
     console.log("id:" + req.query.id);
+    GET_PRODUCT_BY_ID += req.query.id;
 //    console.log("id:"+req.id);
->>>>>>> Thien-Tu
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
-    db.manyOrNone(SEE_ALL_TABLE).then(function (row) {
+    db.manyOrNone(GET_PRODUCT_BY_ID).then(function (row) {
         for (var i = 0; i < row.length; i++) {
-            console.log(row[i].table_name);
+            var product={"id": row[i].ID.toString(), "name": row[i].Name, "picture": row[i].PictureID.toString(), "description":row[i].Description,"numplayer":row[i].NumbPlayers,
+            "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price.toString()};
+    
         }
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(product));
         res.end();
     }).catch(function (error) {
         console.log(error);
