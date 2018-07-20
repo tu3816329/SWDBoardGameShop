@@ -51,12 +51,16 @@ app.get("/", function (req, res) {
 });
 app.get("/getProductByID", function (res, req) {
     console.log(req.getParameter("id"));
+    var id = req.params.id;
+    res.writeHeader(200, {'Content-type': "text/html"});
+    res.write("<meta charset='UTF-8'>");
+    res.write("<h1>Hello All. Testing</h1>" + id)
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
 
 });
-// app.get("/getAllCategory", function (res, req) {
+app.get("/getAllCategory", function (res, req) {
 
-// });
+});
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
 var server = app.listen(process.env.PORT || 8080, function () {
