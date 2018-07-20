@@ -56,7 +56,10 @@ app.get("/getProductByID", function (req, res) {
 //    console.log("id:"+req.id);
 //    db.manyOrNone(GET_PRODUCT_BY_ID)
     db.manyOrNone(SEE_ALL_TABLE).then(function (row) {
-        console.log(row[0].table_name);
+        for (var i = 0; i < row.length; i++) {
+            console.log(row[i].table_name);
+        }
+        res.end();
     }).catch(function (error) {
         console.log(error);
     });
@@ -74,6 +77,7 @@ app.get("/getAllCategory", function (req, res) {
     }).catch(function (error) {
         console.log(error);
     });
+
 });
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
