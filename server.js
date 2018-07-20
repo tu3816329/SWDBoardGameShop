@@ -68,7 +68,7 @@ app.get("/getAllCategory", function (req, res) {
     db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
         var categories = [];
         for (var i = 0; i < row.length; i++) {
-            var cate={"category": {"id": row[i].ID.toString(), "name": row[i].CategoryName}};
+            var cate={{"id": row[i].ID.toString(), "name": row[i].CategoryName}};
             categories.push(cate);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
