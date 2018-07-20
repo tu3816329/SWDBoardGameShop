@@ -31,7 +31,12 @@ module.exports = db;
 module.exports = pgPromise;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-// - - - - - - - - - - - - - - Functions - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - Functions - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - Variables - - - - - - - - - - - - - - - - - - - -
+var GET_PRODUCT_BY_ID = "SELECT a.Name,b.PictureLink,a.Description,a.NumbPlayers,\n\
+a.IdealNumbPlayers,a.TimePlay,a.Age,a.Price \n\
+FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
+var GET_CATEGORY_BY_ID = "";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -43,6 +48,15 @@ app.get("/", function (req, res) {
     res.writeHeader(200, {'Content-type': "text/html"});
     res.write("<meta charset='UTF-8'>");
     res.write("<h1>Hello All. Testing</h1>")
+});
+
+app.get("/getProductByID", function (res, req) {
+    console.log(req.getParameter("id"));
+//    db.manyOrNone(GET_PRODUCT_BY_ID)
+
+});
+app.get("/getAllCategory", function (res, req) {
+
 });
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
