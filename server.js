@@ -63,7 +63,7 @@ app.get("/getProductByID", function (req, res) {
  var products = [];
     db.manyOrNone(GET_PRODUCT_BY_ID+req.query.id).then(function (row) {
         for (var i = 0; i < row.length; i++) {
-            var product={"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers,
+            var product={"id": row[i].ID.toString(),"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers,
             "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price};
             products.push(product);
         }
@@ -97,7 +97,7 @@ app.get("/getProductByCategoryID", function (req, res) {
     db.manyOrNone(GET_PRODUCT_BY_CATEGORYID + req.query.id).then(function (row) {
         var products = [];
         for (var i = 0; i < row.length; i++) {
-            var product={"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers, "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price};
+            var product={"id": row[i].ID.toString(),"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers, "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price};
             products.push(product);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
