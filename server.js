@@ -47,8 +47,6 @@ var GET_CATEGORY_BY_ID = "";
 var GET_ALL_CATEGORY = "SELECT c.* FROM \"Category\" c";
 var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
 var GET_USER_BY_USERNAME = "SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = ";
-var GET_CUSTOMER_BY_USERNAME = "  SELECT c.\"Username\" , c.\"Id\", c.\"Name\",c.\"DayOfBirth\",c.\"Address\",c.\"PhoneNumber\",\n\
-c.\"Username\" FROM \"Customer\" c, \"Account\" a WHERE c.\"Username\" = a.\"Username\" AND  c.\"Username\"=";
 
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
@@ -115,29 +113,10 @@ app.get("/getProductByCategoryID", function (req, res) {
 });
 
 app.get("/getUserByUsername", function (req, res) {
-    console.log("" + GET_USER_BY_USERNAME +"'"+req.query.id.toString()+ "'");
  var users = [];
-    db.manyOrNone(GET_USER_BY_USERNAME+ "'"+req.query.id.toString()+ "'").then(function (row) {
+    db.manyOrNone(GET_USER_BY_USERNAME+ req.query.id).then(function (row) {
         for (var i = 0; i < row.length; i++) {
             var user={"username": row[i].Username,"password": row[i].Password};
-            users.push(user);
-        }
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.writeHeader(200, {'Content-type': "Application/json"});
-        res.write(JSON.stringify(users));
-        res.end();
-    }).catch(function (error) {
-        console.log(error);
-    });
-});
-
-app.get("/getCustomerByUsername", function (req, res) {
-    console.log("" + GET_CUSTOMER_BY_USERNAME +"'"+req.query.id.toString()+ "'");
- var users = [];
-    db.manyOrNone(GET_CUSTOMER_BY_USERNAME+"'"+req.query.id.toString()+ "'").then(function (row) {
-        for (var i = 0; i < row.length; i++) {
-            var user={"id": row[i].Id.toString(),"name": row[i].Name,"dayOfBirth": row[i].DayOfBirth.toString(),"address": row[i].Address,
-            "phone": row[i].PhoneNumber,"username": row[i].Username};
             users.push(user);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
