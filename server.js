@@ -46,6 +46,8 @@ a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\ FROM \"Product\"
 var GET_CATEGORY_BY_ID = "";
 var GET_ALL_CATEGORY = "SELECT c.* FROM \"Category\" c";
 var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
+var GET_USER_BY_USERNAME = "SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = ";
+
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -108,6 +110,23 @@ app.get("/getProductByCategoryID", function (req, res) {
         console.log(error);
     });
 
+});
+
+app.get("/getUserByUsername", function (req, res) {
+    console.log("" + GET_USER_BY_USERNAME +"'"+req.query.id.toString()+ "'");
+ var users = [];
+    db.manyOrNone(GET_USER_BY_USERNAME+ req.query.id).then(function (row) {
+        for (var i = 0; i < row.length; i++) {
+            var user={"username": row[i].Username,"password": row[i].Password};
+            users.push(user);
+        }
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(users));
+        res.end();
+    }).catch(function (error) {
+        console.log(error);
+    });
 });
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
