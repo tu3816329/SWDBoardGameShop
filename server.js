@@ -50,6 +50,8 @@ var GET_USER_BY_USERNAME = "SELECT a.\"Username\", a.\"Password\" FROM \"Account
 var GET_CUSTOMER_BY_USERNAME = "  SELECT c.\"Username\" , c.\"Id\", c.\"Name\",c.\"DayOfBirth\",c.\"Address\",c.\"PhoneNumber\",\n\
 c.\"Username\" FROM \"Customer\" c, \"Account\" a WHERE c.\"Username\" = a.\"Username\" AND  c.\"Username\"=";
 
+ var LOGIN = "SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = $1, a.\"Password\" = $2";
+
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -133,7 +135,7 @@ app.get("/getUserByUsername", function (req, res) {
 app.get("/getCustomerByUsername", function (req, res) {
     console.log("" + GET_CUSTOMER_BY_USERNAME +"'"+req.query.id+"'");
  var users = [];
-    db.manyOrNone(GET_CUSTOMER_BY_USERNAME+req.query.id).then(function (row) {
+    db.manyOrNone("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = " + req.query.username + ", a.\"Password\" = " + req.query.password).then(function (row) {
         for (var i = 0; i < row.length; i++) {
             var user={"id": row[i].Id.toString(),"name": row[i].Name,"dayOfBirth": row[i].DayOfBirth.toString(),"address": row[i].Address,
             "phone": row[i].PhoneNumber,"username": row[i].Username};
@@ -148,7 +150,33 @@ app.get("/getCustomerByUsername", function (req, res) {
     });
 });
 
+app.get("/login", function (req, res) {
+    console.log("" + GET_CUSTOMER_BY_USERNAME +"'"+req.query.id+"'");
+ var users = [];
+    db.manyOrNone(LOGIN,req.query.username,req.query.pass).then(
+        user=>{
+            if(user){
+        res.writeHeader(200, {'Content-type': "text/html"});
+        res.write("<meta charset='UTF-8'>");
+        res.write("<h1>Success</h1>");
+            }else{
+                 res.writeHeader(200, {'Content-type': "text/html"});
+        res.write("<meta charset='UTF-8'>");
+        res.write("<h1>Fail</h1>");
+            }
+        }
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(users));
+        res.end();
+    }).catch(function (error) {
+        console.log(error);
+    });
+});
+
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
+
+
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
 var server = app.listen(process.env.PORT || 8080, function () {
     console.log('listening on ' + server.address().port);
