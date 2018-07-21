@@ -164,11 +164,7 @@ app.get("/login", function (req, res) {
         res.write("<meta charset='UTF-8'>");
         res.write("<h1>Fail</h1>");
             }
-        }
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.writeHeader(200, {'Content-type': "Application/json"});
-        res.write(JSON.stringify(users));
-        res.end();
+    
     }).catch(function (error) {
         console.log(error);
     });
