@@ -117,7 +117,7 @@ app.get("/getProductByCategoryID", function (req, res) {
 app.get("/getUserByUsername", function (req, res) {
     console.log("" + GET_USER_BY_USERNAME +"'"+req.query.id.toString()+ "'");
  var users = [];
-    db.manyOrNone(GET_USER_BY_USERNAME+ req.query.id).then(function (row) {
+    db.manyOrNone(GET_USER_BY_USERNAME+ "'"+req.query.id.toString()+ "'").then(function (row) {
         for (var i = 0; i < row.length; i++) {
             var user={"username": row[i].Username,"password": row[i].Password};
             users.push(user);
@@ -134,7 +134,7 @@ app.get("/getUserByUsername", function (req, res) {
 app.get("/getCustomerByUsername", function (req, res) {
     console.log("" + GET_CUSTOMER_BY_USERNAME +"'"+req.query.id.toString()+ "'");
  var users = [];
-    db.manyOrNone(GET_CUSTOMER_BY_USERNAME+req.query.id).then(function (row) {
+    db.manyOrNone(GET_CUSTOMER_BY_USERNAME+"'"+req.query.id.toString()+ "'").then(function (row) {
         for (var i = 0; i < row.length; i++) {
             var user={"id": row[i].Id.toString(),"name": row[i].Name,"dayOfBirth": row[i].DayOfBirth.toString(),"address": row[i].Address,
             "phone": row[i].PhoneNumber,"username": row[i].Username};
