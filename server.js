@@ -151,9 +151,7 @@ app.get("/getCustomerByUsername", function (req, res) {
 });
 
 app.get("/login", function (req, res) {
-    console.log("" + GET_CUSTOMER_BY_USERNAME +"'"+req.query.id+"'");
- var users = [];
-    db.manyOrNone(LOGIN,req.query.username,req.query.pass).then(
+    db.manyOrNone("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =" +req.query.username +" AND a.\"Password\" ="+ req.query.pass).then(
         user=>{
             if(user){
         res.writeHeader(200, {'Content-type': "text/html"});
