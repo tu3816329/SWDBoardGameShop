@@ -38,10 +38,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 // FROM \"Product\" a, \"Picture\" b WHERE b.\"ID\" = a.\"PictureID\" AND a.\"ID\"=";
 
 
-var GET_PRODUCT_BY_ID = "SELECT a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
+var GET_PRODUCT_BY_ID = "SELECT a.\"ID\", a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
 a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\
 FROM \"Product\" a WHERE a.\"ID\"=";
-var GET_PRODUCT_BY_CATEGORYID = "SELECT a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
+var GET_PRODUCT_BY_CATEGORYID = "SELECT a.\"ID\", a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
 a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\ FROM \"Product\" a, \"ProductCategory\" b WHERE a.\"ID\" = b.\"ProductID\" AND  b.\"CategoryID\"=";
 var GET_CATEGORY_BY_ID = "";
 var GET_ALL_CATEGORY = "SELECT c.* FROM \"Category\" c";
