@@ -49,8 +49,8 @@ var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE tabl
 var GET_USER_BY_USERNAME = "SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = ";
 var GET_CUSTOMER_BY_USERNAME = "  SELECT c.\"Username\" , c.\"Id\", c.\"Name\",c.\"DayOfBirth\",c.\"Address\",c.\"PhoneNumber\" FROM \"Customer\" c, \"Account\" a WHERE c.\"Username\" = a.\"Username\" AND  c.\"Username\"=";
  var LOGIN = "SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = $1, a.\"Password\" = $2";
-var UPDATE_CUSTOMER_ORDER_PROFILE = "UPDATE Customer SET Name=${name}, Address=${address}, PhoneNumber=${phone} WHERE Username = ${username}";
-var FIND_LIKE_PRODUCT_NAME = "a.\"ID\", a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
+var UPDATE_CUSTOMER_ORDER_PROFILE = "UPDATE \"Customer\" SET \"Name\"=$1, \"Address\"=$2, \"PhoneNumber\"=$3 WHERE \"Username\" = $4";
+var FIND_LIKE_PRODUCT_NAME = " SELECT a.\"ID\", a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
 a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\ FROM \"Product\" a  where a.\"Name\" LIKE ";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
@@ -117,7 +117,6 @@ app.get("/getProductByCategoryID", function (req, res) {
 });
 
 app.get("/findProductLikeName", function (req, res) {
-    console.log("" + GET_PRODUCT_BY_CATEGORYID);
     db.manyOrNone(FIND_LIKE_PRODUCT_NAME + req.query.id).then(function (row) {
         var products = [];
         for (var i = 0; i < row.length; i++) {
@@ -193,8 +192,8 @@ app.get("/login", function (req, res) {
 
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 app.post("/updateCustomerOrderProfile", function (req, res) {
-    console.log("UPDATE Customer SET Name=" + req.query.name+", Address=" +req.query.address+", PhoneNumber="+req.query.phone+" WHERE Username = "+req.query.username);
-    db.none("UPDATE public.\"Customer\" SET \"Customer\".Name=" + req.query.name+", \"Customer\".Address=" +req.query.address+", \"Customer\".PhoneNumber="+req.query.phone+" WHERE Customer.Username = "+req.query.username).
+    console.log("UPDATE public.\"Customer\" SET \"Name\"="+req.query.name+", \"Address\"="+req.query.address+", \"PhoneNumber\"="+req.query.phone+" WHERE \"Username\"="+req.query.username);
+    db.none("UPDATE public.\"Customer\" SET \"Name\"="+req.query.name+", \"Address\"="+req.query.address+", \"PhoneNumber\"="+req.query.phone+" WHERE \"Username\"="+req.query.username).
     then(function (row) {
         var result ={"result": "success"}
         res.setHeader("Access-Control-Allow-Origin", "*");
