@@ -155,14 +155,16 @@ app.get("/login", function (req, res) {
     db.oneOrNone("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =" +req.query.username +" AND a.\"Password\" ="+ req.query.pass).then(
         user=>{
             if(user){
-        // res.setHeader("Access-Control-Allow-Origin", "*");
-        // res.writeHeader(200, {'Content-type': "Application/json"});
-        res.write("Success");
+                var result = '{ "results" : ['+'{ "result":"success" }]}';
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(result));
         res.end();
             }else{
-                //  res.writeHeader(200, {'Content-type': "text/html"});
-        // res.write("<meta charset='UTF-8'>");
-        res.write("Fail");
+               var result = '{ "results" : ['+'{ "result":"fail" }]}';
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(result));
         res.end();
             }
     
