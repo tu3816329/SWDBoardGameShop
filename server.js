@@ -49,7 +49,7 @@ var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE tabl
 var GET_USER_BY_USERNAME = "SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = ";
 var GET_CUSTOMER_BY_USERNAME = "  SELECT c.\"Username\" , c.\"Id\", c.\"Name\",c.\"DayOfBirth\",c.\"Address\",c.\"PhoneNumber\" FROM \"Customer\" c, \"Account\" a WHERE c.\"Username\" = a.\"Username\" AND  c.\"Username\"=";
  var LOGIN = "SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = $1, a.\"Password\" = $2";
-
+var UPDATE_CUSTOMER_ORDER_PROFILE = "UPDATE \"Customer\" SET \"Name\"=$1, \"Address\"=$2, \"PhoneNumber\"=$3 WHERE \"Username\" = $4";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -172,7 +172,24 @@ app.get("/login", function (req, res) {
 });
 
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
-
+app.post("/updateCustomerOrderProfile", function (req, res) {
+    db.none(UPDATE_CUSTOMER_ORDER_PROFILE, [req.query.name,+req.query.address,req.query.phone,req.query.username]).
+    then(function (row) {
+        var result ={"result": "success"}
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(result));
+        res.end();
+        
+    }).catch(function (error) {
+         var result ={"result": "fail"}
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(result));
+        res.end();
+    });
+   
+});
 
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
 var server = app.listen(process.env.PORT || 8080, function () {
