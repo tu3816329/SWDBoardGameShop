@@ -38,6 +38,9 @@ a.IdealNumbPlayers,a.TimePlay,a.Age,a.Price \n\
 FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
 var GET_CATEGORY_BY_ID = "";
 var GET_ALL_CATEGORY = "SELECT c.* FROM \"Category\" c";
+var GET_TOP_PROMOTION = "SELECT TOP 3 p.* FROM \"PromotionDetail\" p";
+//var GET_PRODUCT_PROMOTION = "SELECT p2.ProductID FROM \"Promotion\" p2 WHERE p2.PromotionID=${id}";
+var GET_PRODUCT_PROMOTION_BY_ID = "SELECT p2.ProductID FROM \"Promotion\" p2 WHERE p2.PromotionID=${id}";
 var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
@@ -79,8 +82,41 @@ app.get("/getAllCategory", function (req, res) {
     ).catch(function (error) {
         console.log(error);
     });
-
 });
+
+app.get("/getTopPromotion", function (req, res) {
+    db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
+        var promotions = {"promotion": []};
+        for (var i = 0; i < row.length; i++) {
+            var promotion = {
+                "ID": row[i].ID.toString(),
+                "Detail": row[i].Detail.toString(),
+                "ImageID": row[i].ImageID.toString(),
+                "StarDate": row[i].StarDate.toString(),
+                "EndDate": row[i].EndDate.toString()
+            };
+            promotion.ProductID = [];
+            db.manyOrNone(GET_PRODUCT_PROMOTION_BY_ID, {id: row[i].ID.toString()}).then(function (row2) {
+                for (var j = 0; j < row2.length; j++) {
+                    promotion.ProductID.push({"id": row2[j].ProductionID});
+                }
+            }).catch(function (error) {
+                console.log(error);
+                res.end();
+            });
+            promotions.push(promotion);
+        }
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(promotions));
+        res.end();
+    }
+    ).catch(function (error) {
+        console.log(error);
+        res.end();
+    });
+});
+
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
 var server = app.listen(process.env.PORT || 8080, function () {
