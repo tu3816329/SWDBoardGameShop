@@ -101,7 +101,7 @@ app.get("/getTopPromotion", function (req, res) {
                     promotion.ProductID.push({"id": row2[j].ProductionID});
                 }
             }).catch(function (error) {
-                console.log(error);
+                console.log("Error at get Product By ID "+error);
                 res.end();
             });
             promotions.push(promotion);
@@ -112,7 +112,7 @@ app.get("/getTopPromotion", function (req, res) {
         res.end();
     }
     ).catch(function (error) {
-        console.log(error);
+        console.log("Error at get all category "+error);
         res.end();
     });
 });
