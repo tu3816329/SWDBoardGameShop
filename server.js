@@ -39,7 +39,7 @@ FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
 var GET_CATEGORY_BY_ID = "";
 var GET_ALL_CATEGORY = "SELECT c.* FROM \"Category\" c";
 var GET_TOP_PROMOTION = "SELECT p.* FROM \"PromotionDetail\" p ORDER BY p.\"ID\" LIMIT 3";
-var GET_PRODUCT_PROMOTION_BY_ID = "SELECT p2.ProductID FROM \"Promotion\" p2 WHERE p2.PromotionID=${id}";
+var GET_PRODUCT_PROMOTION_BY_ID = "SELECT p2.\"ProductID FROM\" \"Promotion\" p2 WHERE p2.\"PromotionID\"=${id}";
 var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
 app.use(function (req, res, next) {
