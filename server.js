@@ -70,7 +70,7 @@ app.get("/getAllCategory", function (req, res) {
     db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
         var categories = {"category": []};
         for (var i = 0; i < row.length; i++) {
-            var cate = {"id": row[i].ID.toString(), "name": row[i].CategoryName};
+            var cate = {"id": row[i].ID , "name": row[i].CategoryName};
             categories.category.push(cate);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -86,20 +86,15 @@ app.get("/getTopPromotion", function (req, res) {
     db.manyOrNone(GET_TOP_PROMOTION).then(function (row) {
         var promotions = {"promotion": []};
         for (var i = 0; i < row.length; i++) {
-            console.log("ID" + row[i].ID);
-            console.log("Detail" + row[i].Detail);
-            console.log("ImageID" + row[i].ImageID);
-            console.log("StarDate" + row[i].StarDate);
-            console.log("EndDate" + row[i].EndDate);
             var promotion = {
-                "ID": row[i].ID.toString(),
-                "Detail": row[i].Detail.toString(),
-                "ImageID": row[i].ImageID.toString(),
-                "StarDate": row[i].StarDate.toString(),
-                "EndDate": row[i].EndDate.toString()
+                "ID": row[i].ID ,
+                "Detail": row[i].Detail ,
+                "ImageID": row[i].ImageID ,
+                "StarDate": row[i].StartDate ,
+                "EndDate": row[i].EndDate 
             };
             promotion.ProductID = [];
-            db.manyOrNone(GET_PRODUCT_PROMOTION_BY_ID, {id: row[i].ID.toString()}).then(function (row2) {
+            db.manyOrNone(GET_PRODUCT_PROMOTION_BY_ID, {id: row[i].ID }).then(function (row2) {
                 for (var j = 0; j < row2.length; j++) {
                     promotion.ProductID.push({"id": row2[j].ProductionID});
                 }
