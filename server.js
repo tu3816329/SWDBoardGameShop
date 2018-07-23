@@ -37,8 +37,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 var GET_PRODUCT_BY_ID = "SELECT a.\"ID\", a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
 a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\
 FROM \"Product\" a WHERE a.\"ID\"=";
+// var GET_PRODUCT_BY_CATEGORYID = "SELECT a.\"ID\", a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
+// a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\ FROM \"Product\" a, \"ProductCategory\" b WHERE a.\"ID\" = b.\"ProductID\" AND  b.\"CategoryID\"=";
+
 var GET_PRODUCT_BY_CATEGORYID = "SELECT a.\"ID\", a.\"Name\",a.\"PictureID\",a.\"Description\",a.\"NumbPlayers\",\n\
-a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\" \n\ FROM \"Product\" a, \"ProductCategory\" b WHERE a.\"ID\" = b.\"ProductID\" AND  b.\"CategoryID\"=";
+a.\"IdealNumbPlayers\",a.\"TimePlay\",a.\"Age\",a.\"Price\", p.\"PictureLink\"  \n\
+ FROM \"Product\" a, \"ProductCategory\" b, \"Picture\" p, \"ProductPicture\" pp  WHERE a.\"ID\" = b.\"ProductID\" AND a.\"ID\" = pp.\"ProductID\" AND pp.\"PictureID\" = p.\"ID\"  AND  b.\"CategoryID\"=";
+
+
+
 var GET_USER_BY_USERNAME = "SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = ";
 var GET_CUSTOMER_BY_USERNAME = "  SELECT c.\"Username\" , c.\"Id\", c.\"Name\",c.\"DayOfBirth\",c.\"Address\",c.\"PhoneNumber\" FROM \"Customer\" c, \"Account\" a WHERE c.\"Username\" = a.\"Username\" AND  c.\"Username\"=";
 var LOGIN = "SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" = $1, a.\"Password\" = $2";
@@ -125,11 +132,11 @@ app.get("/getTopPromotion", function (req, res) {
 });
 //--------------------Son------------------------------------------------
 app.get("/getProductByCategoryID", function (req, res) {
-    console.log("" + GET_PRODUCT_BY_CATEGORYID);
+    console.log("" + GET_PRODUCT_BY_CATEGORYID+ req.query.id);
     db.manyOrNone(GET_PRODUCT_BY_CATEGORYID + req.query.id).then(function (row) {
         var products = [];
         for (var i = 0; i < row.length; i++) {
-            var product={"id": row[i].ID.toString(),"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers, "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price};
+            var product={"id": row[i].ID.toString(),"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers, "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price, "pic":row[i].PictureLink};
             products.push(product);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
