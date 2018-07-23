@@ -39,7 +39,6 @@ FROM Product a, Picture b WHERE b.ID = a.PictureID AND a.ID=${id}";
 var GET_CATEGORY_BY_ID = "";
 var GET_ALL_CATEGORY = "SELECT c.* FROM \"Category\" c";
 var GET_TOP_PROMOTION = "SELECT TOP 3 p.* FROM \"PromotionDetail\" p";
-//var GET_PRODUCT_PROMOTION = "SELECT p2.ProductID FROM \"Promotion\" p2 WHERE p2.PromotionID=${id}";
 var GET_PRODUCT_PROMOTION_BY_ID = "SELECT p2.ProductID FROM \"Promotion\" p2 WHERE p2.PromotionID=${id}";
 var SEE_ALL_TABLE = "SELECT table_name FROM information_schema.tables WHERE table_type='BASE TABLE' AND table_schema='public'";
 // - - - - - - - - - - - - - - Setting - - - - - - - - - - - - - - - - - - - - -
@@ -83,11 +82,15 @@ app.get("/getAllCategory", function (req, res) {
         console.log(error);
     });
 });
-
 app.get("/getTopPromotion", function (req, res) {
     db.manyOrNone(GET_TOP_PROMOTION).then(function (row) {
         var promotions = {"promotion": []};
         for (var i = 0; i < row.length; i++) {
+            console.log("ID" + row[i].ID.toString());
+            console.log("Detail" + row[i].Detail.toString());
+            console.log("ImageID" + row[i].ImageID.toString());
+            console.log("StarDate" + row[i].StarDate.toString());
+            console.log("EndDate" + row[i].EndDate.toString());
             var promotion = {
                 "ID": row[i].ID.toString(),
                 "Detail": row[i].Detail.toString(),
@@ -95,11 +98,6 @@ app.get("/getTopPromotion", function (req, res) {
                 "StarDate": row[i].StarDate.toString(),
                 "EndDate": row[i].EndDate.toString()
             };
-            console.log("ID" + row[i].ID.toString() + "\n" +
-                    "Detail" + row[i].Detail.toString() + "\n" +
-                    "ImageID" + row[i].ImageID.toString() + "\n" +
-                    "StarDate" + row[i].StarDate.toString() + "\n" +
-                    "EndDate" + row[i].EndDate.toString());
             promotion.ProductID = [];
             db.manyOrNone(GET_PRODUCT_PROMOTION_BY_ID, {id: row[i].ID.toString()}).then(function (row2) {
                 for (var j = 0; j < row2.length; j++) {
