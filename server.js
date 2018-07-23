@@ -95,13 +95,18 @@ app.get("/getTopPromotion", function (req, res) {
                 "StarDate": row[i].StarDate.toString(),
                 "EndDate": row[i].EndDate.toString()
             };
+            console.log("ID" + row[i].ID.toString() + "\n" +
+                    "Detail" + row[i].Detail.toString() + "\n" +
+                    "ImageID" + row[i].ImageID.toString() + "\n" +
+                    "StarDate" + row[i].StarDate.toString() + "\n" +
+                    "EndDate" + row[i].EndDate.toString());
             promotion.ProductID = [];
             db.manyOrNone(GET_PRODUCT_PROMOTION_BY_ID, {id: row[i].ID.toString()}).then(function (row2) {
                 for (var j = 0; j < row2.length; j++) {
                     promotion.ProductID.push({"id": row2[j].ProductionID});
                 }
             }).catch(function (error) {
-                console.log("Error at get Product By ID "+error);
+                console.log("Error at get Product By ID " + error);
                 res.end();
             });
             promotions.push(promotion);
@@ -112,7 +117,7 @@ app.get("/getTopPromotion", function (req, res) {
         res.end();
     }
     ).catch(function (error) {
-        console.log("Error at get all category "+error);
+        console.log("Error at get top promotion " + error);
         res.end();
     });
 });
