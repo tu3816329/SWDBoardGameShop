@@ -66,16 +66,17 @@ app.get("/getProductByID", function (req, res) {
 });
 app.get("/getAllCategory", function (req, res) {
     db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
-        var categories = {"category":[]};
+        var categories = {"category": []};
         for (var i = 0; i < row.length; i++) {
-            var cate={"id": row[i].ID.toString(), "name": row[i].CategoryName};
+            var cate = {"id": row[i].ID.toString(), "name": row[i].CategoryName};
             categories.category.push(cate);
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.writeHeader(200, {'Content-type': "Application/json"});
+            res.write(JSON.stringify(categories));
+            res.end();
         }
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.writeHeader(200, {'Content-type': "Application/json"});
-        res.write(JSON.stringify(categories));
-        res.end();
-    }).catch(function (error) {
+    }
+    ).catch(function (error) {
         console.log(error);
     });
 
