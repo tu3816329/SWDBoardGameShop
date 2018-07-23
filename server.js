@@ -102,7 +102,7 @@ app.get("/getTopPromotion", function (req, res) {
                 console.log("Error at get Product By ID " + error);
                 res.end();
             });
-            promotions.push(promotion);
+            promotions.promotion.push(promotion);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.writeHeader(200, {'Content-type': "Application/json"});
