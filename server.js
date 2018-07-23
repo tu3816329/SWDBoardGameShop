@@ -96,7 +96,7 @@ app.get("/getTopPromotion", function (req, res) {
             promotion.ProductID = [];
             db.manyOrNone(GET_PRODUCT_PROMOTION_BY_ID, {id: row[i].ID }).then(function (row2) {
                 for (var j = 0; j < row2.length; j++) {
-                    promotion.ProductID.push({"id": row2[j].ProductionID});
+                    promotion.ProductID.push({"id": row2[j].ProductID,"discount":row2[j].Discount});
                 }
             }).catch(function (error) {
                 console.log("Error at get Product By ID " + error);
