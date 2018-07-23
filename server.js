@@ -206,21 +206,23 @@ app.get("/getCustomerByUsername", function (req, res) {
 app.get("/login", function (req, res) {
     console.log("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =" + req.query.username + " AND a.\"Password\" =" + req.query.pass);
     db.oneOrNone("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =" + req.query.username + " AND a.\"Password\" =" + req.query.pass).then(
-            user = > {
-            if (user) {
-                var result = {"result": "success"}
+            function(row){
+                var user=row[0].Username;
+            if (user!==null) {
+                var result = {"result": "success"};
                 res.setHeader("Access-Control-Allow-Origin", "*");
                 res.writeHeader(200, {'Content-type': "Application/json"});
                 res.write(JSON.stringify(result));
                 res.end();
             } else {
-                var result = {"result": "fail"}
+                var result = {"result": "fail"};
                 res.setHeader("Access-Control-Allow-Origin", "*");
                 res.writeHeader(200, {'Content-type': "Application/json"});
                 res.write(JSON.stringify(result));
                 res.end();
             }
-        }).catch(function (error) {
+        }
+                ).catch(function (error) {
     console.log(error);
 });
 });
