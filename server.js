@@ -205,7 +205,7 @@ app.get("/getCustomerByUsername", function (req, res) {
 });
 app.get("/login", function (req, res) {
     console.log("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =" + req.query.username + " AND a.\"Password\" =" + req.query.pass);
-    db.oneOrNone("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =\'" + req.query.username + "\' AND a.\"Password\" =\'" + req.query.pass+"\'").then(
+    db.oneOrNone("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =\"" + req.query.username + "\" AND a.\"Password\" =\"" + req.query.pass+"\"").then(
             function(row){
                 var user=row[0];
             if (user!==null) {
