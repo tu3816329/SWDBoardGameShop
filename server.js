@@ -66,10 +66,10 @@ app.get("/getProductByID", function (req, res) {
 });
 app.get("/getAllCategory", function (req, res) {
     db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
-        var categories = [];
+        var categories = {"category":[]};
         for (var i = 0; i < row.length; i++) {
-            var cate={"category": {"id": row[i].ID.toString(), "name": row[i].CategoryName}};
-            categories.push(cate);
+            var cate={"id": row[i].ID.toString(), "name": row[i].CategoryName};
+            categories.category.push(cate);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.writeHeader(200, {'Content-type': "Application/json"});
