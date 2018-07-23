@@ -86,11 +86,11 @@ app.get("/getTopPromotion", function (req, res) {
     db.manyOrNone(GET_TOP_PROMOTION).then(function (row) {
         var promotions = {"promotion": []};
         for (var i = 0; i < row.length; i++) {
-            console.log("ID" + row[i].ID.toString());
-            console.log("Detail" + row[i].Detail.toString());
-            console.log("ImageID" + row[i].ImageID.toString());
-            console.log("StarDate" + row[i].StarDate.toString());
-            console.log("EndDate" + row[i].EndDate.toString());
+            console.log("ID" + row[i].ID);
+            console.log("Detail" + row[i].Detail);
+            console.log("ImageID" + row[i].ImageID);
+            console.log("StarDate" + row[i].StarDate);
+            console.log("EndDate" + row[i].EndDate);
             var promotion = {
                 "ID": row[i].ID.toString(),
                 "Detail": row[i].Detail.toString(),
