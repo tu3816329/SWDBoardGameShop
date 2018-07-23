@@ -85,7 +85,7 @@ app.get("/getAllCategory", function (req, res) {
 });
 
 app.get("/getTopPromotion", function (req, res) {
-    db.manyOrNone(GET_ALL_CATEGORY).then(function (row) {
+    db.manyOrNone(GET_TOP_PROMOTION).then(function (row) {
         var promotions = {"promotion": []};
         for (var i = 0; i < row.length; i++) {
             var promotion = {
