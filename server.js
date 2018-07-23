@@ -124,28 +124,12 @@ app.get("/getTopPromotion", function (req, res) {
     });
 });
 //--------------------Son------------------------------------------------
-app.get("/getProductByID", function (req, res) {
-    var products = [];
-    db.manyOrNone(GET_PRODUCT_BY_ID + req.query.id).then(function (row) {
-        for (var i = 0; i < row.length; i++) {
-            var product = {"id": row[i].ID.toString(), "name": row[i].Name, "description": row[i].Description, "numplayer": row[i].NumbPlayers,
-                "idealNumbPlayers": row[i].IdealNumbPlayers, "timePlay": row[i].TimePlay, "age": row[i].Age, "price": row[i].Price};
-            products.push(product);
-        }
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.writeHeader(200, {'Content-type': "Application/json"});
-        res.write(JSON.stringify(products));
-        res.end();
-    }).catch(function (error) {
-        console.log(error);
-    });
-});
 app.get("/getProductByCategoryID", function (req, res) {
     console.log("" + GET_PRODUCT_BY_CATEGORYID);
     db.manyOrNone(GET_PRODUCT_BY_CATEGORYID + req.query.id).then(function (row) {
         var products = [];
         for (var i = 0; i < row.length; i++) {
-            var product = {"id": row[i].ID.toString(), "name": row[i].Name, "description": row[i].Description, "numplayer": row[i].NumbPlayers, "idealNumbPlayers": row[i].IdealNumbPlayers, "timePlay": row[i].TimePlay, "age": row[i].Age, "price": row[i].Price};
+            var product={"id": row[i].ID.toString(),"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers, "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price};
             products.push(product);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -155,12 +139,13 @@ app.get("/getProductByCategoryID", function (req, res) {
     }).catch(function (error) {
         console.log(error);
     });
+
 });
 app.get("/findProductLikeName", function (req, res) {
     db.manyOrNone(FIND_LIKE_PRODUCT_NAME + req.query.id).then(function (row) {
         var products = [];
         for (var i = 0; i < row.length; i++) {
-            var product = {"id": row[i].ID.toString(), "name": row[i].Name, "description": row[i].Description, "numplayer": row[i].NumbPlayers, "idealNumbPlayers": row[i].IdealNumbPlayers, "timePlay": row[i].TimePlay, "age": row[i].Age, "price": row[i].Price};
+            var product={"id": row[i].ID.toString(),"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers, "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price};
             products.push(product);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -170,12 +155,13 @@ app.get("/findProductLikeName", function (req, res) {
     }).catch(function (error) {
         console.log(error);
     });
+
 });
 app.get("/getUserByUsername", function (req, res) {
-    var users = [];
-    db.manyOrNone(GET_USER_BY_USERNAME + req.query.id).then(function (row) {
+ var users = [];
+    db.manyOrNone(GET_USER_BY_USERNAME+ req.query.id).then(function (row) {
         for (var i = 0; i < row.length; i++) {
-            var user = {"username": row[i].Username, "password": row[i].Password};
+            var user={"username": row[i].Username,"password": row[i].Password};
             users.push(user);
         }
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -187,15 +173,15 @@ app.get("/getUserByUsername", function (req, res) {
     });
 });
 app.get("/getCustomerByUsername", function (req, res) {
-    console.log("" + GET_CUSTOMER_BY_USERNAME + "'" + req.query.id.toString() + "'");
-    var users = [];
-    db.manyOrNone(GET_CUSTOMER_BY_USERNAME + req.query.id).then(function (row) {
+    console.log("" + GET_CUSTOMER_BY_USERNAME +"'"+req.query.id.toString()+ "'");
+ var users = [];
+    db.manyOrNone(GET_CUSTOMER_BY_USERNAME+req.query.id).then(function (row) {
         for (var i = 0; i < row.length; i++) {
-            var user = {"id": row[i].Id.toString(), "name": row[i].Name, "dayOfBirth": row[i].DayOfBirth.toString(), "address": row[i].Address,
-                "phone": row[i].PhoneNumber, "username": row[i].Username};
-            users.push(user);
+            var user={"id": row[i].Id.toString(),"name": row[i].Name,"dayOfBirth": row[i].DayOfBirth.toString(),"address": row[i].Address,
+           "phone": row[i].PhoneNumber,"username": row[i].Username};
+           users.push(user);
         }
-        res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Origin", "*");
         res.writeHeader(200, {'Content-type': "Application/json"});
         res.write(JSON.stringify(users));
         res.end();
@@ -204,42 +190,43 @@ app.get("/getCustomerByUsername", function (req, res) {
     });
 });
 app.get("/login", function (req, res) {
-    console.log("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =" + req.query.username + " AND a.\"Password\" =" + req.query.pass);
-    db.oneOrNone("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =" + req.query.username + " AND a.\"Password\" =" + req.query.pass).then(
-            function(row){
-                var user=row[0].Username;
-            if (user!==null) {
-                var result = {"result": "success"};
-                res.setHeader("Access-Control-Allow-Origin", "*");
-                res.writeHeader(200, {'Content-type': "Application/json"});
-                res.write(JSON.stringify(result));
-                res.end();
-            } else {
-                var result = {"result": "fail"};
-                res.setHeader("Access-Control-Allow-Origin", "*");
-                res.writeHeader(200, {'Content-type': "Application/json"});
-                res.write(JSON.stringify(result));
-                res.end();
+    console.log("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =" +req.query.username +" AND a.\"Password\" ="+ req.query.pass);
+    db.oneOrNone("SELECT a.\"Username\", a.\"Password\" FROM \"Account\" a WHERE a.\"Username\" =" +req.query.username +" AND a.\"Password\" ="+ req.query.pass).then(
+        user=>{
+            if(user){
+                var result ={"result": "success"}
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(result));
+        res.end();
+            }else{
+              var result ={"result": "fail"}
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(result));
+        res.end();
             }
-        }
-                ).catch(function (error) {
-    console.log(error);
-});
+    
+    }).catch(function (error) {
+        console.log(error);
+    });
 });
 // - - - - - - - - - - - - - Handle Post Method - - - - - - - - - - - - - - - -
-        app.post("/updateCustomerOrderProfile", function (req, res) {
-            console.log("UPDATE public.\"Customer\" SET \"Name\"=" + req.query.name + ", \"Address\"=" + req.query.address + ", \"PhoneNumber\"=" + req.query.phone + " WHERE \"Username\"=" + req.query.username);
-            db.none("UPDATE public.\"Customer\" SET \"Name\"=" + req.query.name + ", \"Address\"=" + req.query.address + ", \"PhoneNumber\"=" + req.query.phone + " WHERE \"Username\"=" + req.query.username).
-                    then(function (row) {
-                        var result = {"result": "success"}
-                        res.setHeader("Access-Control-Allow-Origin", "*");
-                        res.writeHeader(200, {'Content-type': "Application/json"});
-                        res.write(JSON.stringify(result));
-                        res.end();
-                    }).catch(function (error) {
-                console.log(error);
-            });
-        });
+app.post("/updateCustomerOrderProfile", function (req, res) {
+    console.log("UPDATE public.\"Customer\" SET \"Name\"="+req.query.name+", \"Address\"="+req.query.address+", \"PhoneNumber\"="+req.query.phone+" WHERE \"Username\"="+req.query.username);
+    db.none("UPDATE public.\"Customer\" SET \"Name\"="+req.query.name+", \"Address\"="+req.query.address+", \"PhoneNumber\"="+req.query.phone+" WHERE \"Username\"="+req.query.username).
+    then(function (row) {
+        var result ={"result": "success"}
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.writeHeader(200, {'Content-type': "Application/json"});
+        res.write(JSON.stringify(result));
+        res.end();
+        
+    }).catch(function (error) {
+        console.log(error);
+    });
+   
+});
 // - - - - - - - - - - - - - - Server - - - - - - - - - - - - - - - - - - - - - 
 var server = app.listen(process.env.PORT || 8080, function () {
     console.log('listening on ' + server.address().port);
