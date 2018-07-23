@@ -149,7 +149,8 @@ app.get("/getProductByCategoryID", function (req, res) {
 
 });
 app.get("/findProductLikeName", function (req, res) {
-    db.manyOrNone(FIND_LIKE_PRODUCT_NAME + req.query.id).then(function (row) {
+    console.log(FIND_LIKE_PRODUCT_NAME + "%"+req.query.id+"%");
+    db.manyOrNone(FIND_LIKE_PRODUCT_NAME + "'%"+req.query.id+"%'").then(function (row) {
         var products = [];
         for (var i = 0; i < row.length; i++) {
             var product={"id": row[i].ID.toString(),"name": row[i].Name, "description":row[i].Description,"numplayer":row[i].NumbPlayers, "idealNumbPlayers":row[i].IdealNumbPlayers,"timePlay":row[i].TimePlay,"age":row[i].Age,"price":row[i].Price};
