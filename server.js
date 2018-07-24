@@ -98,7 +98,7 @@ app.get("/getTopPromotion", function (req, res) {
             var promotion = {
                 "ID": row[i].ID,
                 "Detail": row[i].Detail,
-                "ImageID": row[i].ImageID,
+                "ImageLink": row[i].PictureLink,
                 "StarDate": row[i].StartDate,
                 "EndDate": row[i].EndDate
             };
